@@ -1,9 +1,13 @@
 import React from 'react';
 
-function App() {
+import './App.css'
+
+import Routes from './routes';
+
+export default function App() {
   return (
-    <h1>Hello World</h1>
+    <div>
+      <Routes />
+    </div>
   );
 }
-
-export default App;
