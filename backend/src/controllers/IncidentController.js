@@ -36,6 +36,7 @@ module.exports = {
 
         const totalPages = Math.ceil(count['count(*)'] / PAGINATION_SIZE);
         response.header('X-Total-Pages', totalPages);
+        response.header('X-Total-Items', count['count(*)']);
     
         return response.json(incidents);
     },
