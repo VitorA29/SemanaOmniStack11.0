@@ -1,5 +1,6 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
+const jwt = require('./jwt');
 
 const OngController = require('./controllers/OngController');
 const IncidentController = require('./controllers/IncidentController');
@@ -8,6 +9,26 @@ const SessionController = require('./controllers/SessionController');
 
 const routes = express.Router();
 
+const authorizationMiddleware = async (req, res, next) => {
+    const [ , token ] = req.headers.authorization.split(' ')
+    
+    let auth;
+    try {
+        const payload = await jwt.verify(token);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(401).send(err);
+    }
+
+    // transmite the auth element, eq a Ong.
+    auth = true;
+    req.auth = auth;
+
+    next();
+};
+
+routes.get('/sessions', SessionController.login);
 routes.post('/sessions', SessionController.create);
 
 routes.get('/ongs', OngController.read);
@@ -53,5 +74,9 @@ routes.delete('/incidents/:id', celebrate({
         id: Joi.number().required()
     })
 }), IncidentController.delete);
+
+routes.get('/me', authorizationMiddleware, (req, res) => {
+    res.send(req.auth);
+});
 
 module.exports = routes;
