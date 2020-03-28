@@ -1,16 +1,18 @@
-const crypto = require('crypto');
 const connection = require('../database/connection');
+const KeyGenerator = require('../utils/key-generator');
+
+const brazilCode = '+55';
 
 module.exports = {
     async create(request, response) {
         const { name, email, whatsapp, city, uf } = request.body;
-        const id = crypto.randomBytes(4).toString('HEX');
-    
+
+        const id = KeyGenerator.generateUniqueId();
         await connection('ongs').insert({
             id,
             name,
             email,
-            whatsapp,
+            whatsapp: brazilCode + whatsapp,
             city,
             uf
         });
