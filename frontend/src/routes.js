@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import { isAuthenticaded } from './services/authentication';
+import isAuthenticaded from './services/authentication';
 import Logon from './pages/Logon';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
